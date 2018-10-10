@@ -1,0 +1,215 @@
+<html>
+  <head>
+<script src="https://www.gstatic.com/firebasejs/5.3.0/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyD6pcu50nbigyImjFEu7W1EM-TcghSIEns",
+    authDomain: "awesome-2d091.firebaseapp.com",
+    databaseURL: "https://awesome-2d091.firebaseio.com",
+    projectId: "awesome-2d091",
+    storageBucket: "awesome-2d091.appspot.com",
+    messagingSenderId: "965508216599"
+  };
+  firebase.initializeApp(config);
+</script>
+
+   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+   <script type="text/javascript">
+      google.charts.load('current', {'packages':['gauge']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      /*globar var */
+      var tmp1 = 0;
+      var tmp2 = 0;
+      var tmp3 = 0;
+
+      function json2csv(jsonData, jsonFields) {
+ 
+    var csvStr = jsonFields.join(",") + "\n";
+    
+    for(let i = 0; i < jsonData.length; i++) {
+      csvStr += Object.getOwnPropertyNames(jsonData[i])
+       .map( e => jsonData[i][e]).join(",")
+       + "\n";
+    }
+   
+    return csvStr;
+  }
+
+      function drawChart() {
+
+        var data = google.visualization.arrayToDataTable([
+          ['Label', 'Value'],
+          ['Power 1', 80],
+          ['Power 2', 55],
+          ['Power 3', 68]
+        ]);
+
+        var options = {
+          width: 400, height: 400,
+          redFrom: 79, redTo: 100,
+          yellowFrom:65, yellowTo: 78,
+          minorTicks: 5,
+        };
+
+      var chart = new google.visualization.Gauge(document.getElementById('chart_div'));
+
+      chart.draw(data, options); // set for power 1
+  
+      setInterval(function() {
+        tmp1 = Math.random() * 100;
+        data.setValue(0, 1, tmp1.toPrecision(2));
+        chart.draw(data, options);
+        //console.log("power 1 val: " + tmp1.toPrecision(2));
+
+        tmp2 = Math.random() * 100;
+         data.setValue(1, 1, tmp2.toPrecision(2));
+         chart.draw(data, options);
+         //console.log("power 2 val: " + tmp2.toPrecision(2));
+
+        tmp3 = Math.random() * 100;
+         data.setValue(2, 1, tmp3.toPrecision(2));
+         chart.draw(data, options);
+         //console.log("power 3 val: " + tmp3.toPrecision(2));
+      }, 1000);
+
+      setInterval(function () {
+
+      var leadsRef = firebase.database().ref('data/realtime/');
+      leadsRef.on('value', function(snapshot) {
+        snapshot.forEach(function(childSnapshot) {
+          var childData = childSnapshot.val();
+        });
+
+        console.log("data value: " + JSON.stringify(snapshot));
+        var stringCSV = json2csv(snapshot, ["date", "power"]);
+      });
+      
+      var gId = Math.random().toString(36).substring(7);
+      var key = firebase.database().ref().child('realtime').push().key;
+
+        var bak = {
+          date: new Date(),
+          power: tmp3
+        }
+
+        //console.log(bak.date.toString());
+
+        var updates = {};
+        
+        updates['/data/realtime/' + key] = bak;
+        firebase.database().ref().update(updates);
+        console.log("firebase: updated!");
+
+      }, 10000); // exactly every 10 secs
+
+  var tblUsers = document.getElementById('table_power_list');
+  var databaseRef = firebase.database().ref('data/realtime/');
+  var rowIndex = 1;
+  
+  databaseRef.once('value', function(snapshot) {
+    snapshot.forEach(function(childSnapshot) {
+   var childKey = childSnapshot.key;
+   var childData = childSnapshot.val();
+   
+   var row = tblUsers.insertRow(rowIndex);
+   var cellId = row.insertCell(0);
+   var cellName = row.insertCell(1);
+   var cellName1 = row.insertCell(2);
+   cellId.appendChild(document.createTextNode(childKey));
+   cellName.appendChild(document.createTextNode(childData.date));
+   cellName1.appendChild(document.createTextNode(childData.power));
+   rowIndex = rowIndex + 1;
+    });
+  });
+
+      } /// END OF FUNC: drawChart
+
+        function timeRefresh(timeoutPeriod) {
+            setTimeout("location.reload(true);", timeoutPeriod);
+        }
+
+
+    </script>
+  </head>
+  <body background="Image 1.jpg">
+    <body onLoad="JavaScript:timeRefresh(20000);">
+    <div id="chart_div" align="center" style="width: 400px; height: 120px;"></div>
+
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+
+   <h3 class="myheader">Data List</h3>
+   
+   <table id="table_power_list" border="1" class="mytable">
+    <tr>
+     <td>ID</td>
+     <td>Date & Time</td>
+     <td>Power</td>
+    </tr>
+   </table>
+    <a href="Analytics.html"><button class="mybutton button button4">Analytics Page</button></a>&nbsp;&nbsp;&nbsp;
+    <a href="Admin.html"><button class="mybutton button button4">Admin Page</button></a>&nbsp;&nbsp;&nbsp;
+    <a href="Welcome.html"><button class="mybutton button button4">Return</button></a>
+  </body>
+
+<style> 
+.myheader {
+    position: relative;
+    bottom: 400px;
+    left: 650px;
+}
+
+.mytable {
+    position: relative;
+    bottom: 400px;
+    left: 600px;
+}
+
+.mybutton {
+    position: relative;
+    bottom: 50px;
+    left: 50px;
+}
+
+.button {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 16px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+
+.button4 {
+    background-color: white;
+    color: black;
+    border: 2px solid #555555;
+}
+
+.button4:hover {
+    background-color: #555555;
+    color: white;
+}
+
+</style>
+</html>

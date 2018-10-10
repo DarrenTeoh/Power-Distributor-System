@@ -1,0 +1,124 @@
+<html>
+  <head>
+<script src="https://www.gstatic.com/firebasejs/5.3.0/firebase.js"></script>
+<script src="plotly-latest.min.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyD6pcu50nbigyImjFEu7W1EM-TcghSIEns",
+    authDomain: "awesome-2d091.firebaseapp.com",
+    databaseURL: "https://awesome-2d091.firebaseio.com",
+    projectId: "awesome-2d091",
+    storageBucket: "awesome-2d091.appspot.com",
+    messagingSenderId: "965508216599"
+  };
+  firebase.initializeApp(config);
+</script>
+
+   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+   
+  </head>
+
+  <body background="Image 1.jpg">
+    <div id="myDiv"></div>
+    <script type="text/javascript">
+    function json2csv(jsonData, jsonFields) {
+ 
+      var csvStr = jsonFields.join(",") + "\n";
+  
+      for(let i = 0; i < jsonData.length; i++) {
+         csvStr += Object.getOwnPropertyNames(jsonData[i])
+          .map( e => jsonData[i][e]).join(",")
+          + "\n";
+      }
+ 
+      return csvStr;
+      }
+      var stringCSV = "";
+
+      var leadsRef = firebase.database().ref('data/realtime/');
+      leadsRef.on('value', function(snapshot) {
+        snapshot.forEach(function(childSnapshot) {
+          var childData = childSnapshot.val();
+        });
+
+        console.log("data value: " + JSON.stringify(snapshot));
+        stringCSV = json2csv(snapshot, ["date", "power"])
+      });
+
+      var filename = 'export.csv';
+
+        if (!stringCSV.match(/^data:text\/csv/i)) {
+            stringCSV = 'data:text/csv;charset=utf-8,' + stringCSV;
+        }
+        data = encodeURI(stringCSV);
+
+        Plotly.d3.csv("https://raw.githubusercontent.com/plotly/datasets/master/finance-charts-apple.csv", function(err, rows){
+          function unpack(rows, key) {
+          return rows.map(function(row) { return row[key]; }); //CSV file call from githubusercontent.com(reference only)
+        }
+
+var trace1 = {
+  type: "scatter",
+  mode: "lines",
+  name: 'High',
+  x: unpack(rows, 'Date'),
+  y: unpack(rows, 'AAPL.High'),
+  line: {color: '#00ff55'}
+}
+
+var trace2 = {
+  type: "scatter",
+  mode: "lines",
+  name: 'Low',
+  x: unpack(rows, 'Date'),
+  y: unpack(rows, 'AAPL.Low'),
+  line: {color: '#7F7F7F'}
+}
+
+var data = [trace1,trace2];
+    
+var layout = {
+  title: 'Time Graph (References)', 
+};
+
+Plotly.newPlot('myDiv', data, layout);
+})
+    </script>
+    <a href="Analytics.html"><button class="mybutton button button4">Return</button></a>
+  </body>
+
+<style> 
+.mybutton {
+    position: relative;
+    top: 180px;
+    left: 250px;
+}
+
+.button {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 16px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+
+.button4 {
+    background-color: white;
+    color: black;
+    border: 2px solid #555555;
+}
+
+.button4:hover {
+    background-color: #555555;
+    color: white;
+}
+
+</style>
+</html>

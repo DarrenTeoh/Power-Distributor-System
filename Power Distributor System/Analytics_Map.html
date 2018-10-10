@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+
+  <link href='https://fonts.googleapis.com/css?family=Droid+Sans' rel='stylesheet' type='text/css'>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css" rel="stylesheet" type="text/css" />
+
+  <style type="text/css">
+    html {
+      box-sizing: border-box;
+    }
+    *, *:before, *:after {
+      box-sizing: inherit;
+    }
+
+    body {
+      font-family: 'Droid Sans', sans-serif;
+      background:#f2f2f2;
+      font-size:14px;
+      line-height:21px;
+    }
+
+    .container {
+      width: 960px;
+      margin:20px auto;
+    }
+
+    @media only screen and (min-width: 768px) and (max-width: 1000px) {
+      .container {
+        width: 768px;
+      }
+    }
+    @media only screen and (max-width: 767px) {
+      .container {
+        width: 420px;
+      }
+    }
+    @media only screen and (max-width: 480px) {
+      .container {
+        width: 300px;
+      }
+    }
+    a img {
+      border:none;
+    }
+    h1, h2, h3, h4, h5, h6{ 
+      font-weight:normal; 
+    }
+    h1{ 
+      font-size:26px; 
+      line-height:32px; 
+    }
+    p, ul{
+      margin-bottom:10px;
+    }
+
+  </style>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" type="text/javascript"></script>
+
+  <link href="jsmaps/jsmaps.css" rel="stylesheet" type="text/css" />
+  <script src="jsmaps/jsmaps-libs.js" type="text/javascript"></script>
+  <script src="jsmaps/jsmaps-panzoom.js"></script>
+  <script src="jsmaps/jsmaps.min.js" type="text/javascript"></script>
+  <script src="maps/malaysia.js" type="text/javascript"></script>
+
+
+</head>
+
+<body>
+
+  <div class="container">
+
+
+    <div class="jsmaps-wrapper" id="malaysia-map"></div>
+
+  </div>
+
+  <script type="text/javascript">
+
+    $(function() {
+      
+      $('#malaysia-map').JSMaps({
+        map: 'malaysia'
+      });
+
+    });
+    
+  </script>
+      <h1 style="text-align:center;"><span style="color:#ff0000;">RED</span> - Highest demand on power (References)</h1>
+      <h1 style="text-align:center;"><span style="color:#0066ff;">BLUE</span> - Moderate demand on power (References)</h1>
+      <h1 style="text-align:center;"><span style="color:#00cc00;">GREEN</span> - Lowest demand on power (References)</h1>
+      <a href="Analytics.html"><button class="mybutton button button4">Return</button></a>
+</body>
+
+<style> 
+.mybutton {
+    position: relative;
+    top: 80px;
+    left: 250px;
+}
+
+.button {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 16px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+
+.button4 {
+    background-color: white;
+    color: black;
+    border: 2px solid #555555;
+}
+
+.button4:hover {
+    background-color: #555555;
+    color: white;
+}
+
+</style>
+</html>

@@ -1,0 +1,236 @@
+<html>
+<head>
+
+<script src="https://www.gstatic.com/firebasejs/5.3.0/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyD6pcu50nbigyImjFEu7W1EM-TcghSIEns",
+    authDomain: "awesome-2d091.firebaseapp.com",
+    databaseURL: "https://awesome-2d091.firebaseio.com",
+    projectId: "awesome-2d091",
+    storageBucket: "awesome-2d091.appspot.com",
+    messagingSenderId: "965508216599"
+  };
+  firebase.initializeApp(config);
+</script>
+
+</head>
+
+<body background="Image 1.jpg">
+  <div>
+      <a href="Main.html"><button class="button button5">Return To Main Page</button></a></br></br>
+   <table>
+    <tr>
+     <td>ID: </td>
+     <td><input type="text" name="id" id="id" /></td>
+    </tr>
+    <tr>
+     <td>Date & Time: </td>
+     <td><input type="text" name="date" id="date" /></td>
+    </tr>
+    <tr>
+     <td>Power: </td>
+     <td><input type="text" name="power" id="power" /></td>
+    </tr>
+    <tr>
+     <td>Remarks: </td>
+     <td><input type="text" name="remark" id="remark" /></td>
+    </tr>
+    <tr>
+     <td colspan="3">
+     </br>
+     </br>
+      <input type="button" class="button button2" value="Create" onclick="created();" />
+      <input type="button" class="button button1" value="Update" onclick="updated();" />
+      <input type="button" class="button button3" value="Delete" onclick="deleted();" />
+      <input type="button" class="button button4" value="Delete (Realtime Data)" onclick="deleted_realtime();" />
+     </td>
+    </tr>
+   </table>
+ 
+</br>
+</br>
+</br>
+
+   <h3>Data List</h3>
+   
+   <table id="table_power_list" border="1">
+    <tr>
+     <td>ID</td>
+     <td>Date & Time</td>
+     <td>Power</td>
+     <td>Remarks</td>
+    </tr>
+   </table>
+  </div>
+ </body>
+
+
+ <script>
+ 
+  var tblUsers = document.getElementById('table_power_list');
+  var databaseRef = firebase.database().ref('data/manual/');
+  var rowIndex = 1;
+  
+  databaseRef.once('value', function(snapshot) {
+    snapshot.forEach(function(childSnapshot) {
+   var childKey = childSnapshot.key;
+   var childData = childSnapshot.val();
+   
+   var row = tblUsers.insertRow(rowIndex);
+   var cellId = row.insertCell(0);
+   var cellName = row.insertCell(1);
+   var cellName1 = row.insertCell(2);
+   var cellName2 = row.insertCell(3);
+   cellId.appendChild(document.createTextNode(childKey));
+   cellName.appendChild(document.createTextNode(childData.date));
+   cellName1.appendChild(document.createTextNode(childData.power));
+   cellName2.appendChild(document.createTextNode(childData.remark));
+   rowIndex = rowIndex + 1;
+    });
+  });
+   
+  function created(){
+   var id = document.getElementById('id').value;
+   var date = document.getElementById('date').value;
+   var power = document.getElementById('power').value;
+   var remark = document.getElementById('remark').value;
+
+   var data = {
+    id: id,
+    date: date,
+    power: power,
+    remark: remark
+   }
+   
+   var updates = {};
+   updates['/data/manual/' + id] = data;
+   firebase.database().ref().update(updates);
+   
+   alert('A new data has been created.');
+   reload_page();
+  }
+  
+  function updated(){
+   var id = document.getElementById('id').value;
+   var date = document.getElementById('date').value;
+   var power = document.getElementById('power').value;
+   var remark = document.getElementById('remark').value;
+
+   var data = {
+    id: id,
+    date: date,
+    power: power,
+    remark: remark
+   }
+   
+   var updates = {};
+   updates['/data/manual/' + id] = data;
+   firebase.database().ref().update(updates);
+   
+   alert('Data has been updated.');
+   
+   reload_page();
+  }
+  
+  function deleted(){
+   var id = document.getElementById('id').value;
+  
+   firebase.database().ref().child('/data/manual/' + id).remove();
+   alert('Data has been deleted.');
+   reload_page();
+  }
+
+  function deleted_realtime(){
+   var id = document.getElementById('id').value;
+  
+   firebase.database().ref().child('data/realtime/' + id).remove();
+   alert('Data has been deleted.');
+   reload_page();
+  }
+  
+  function reload_page(){
+   window.location.reload();
+  }
+  
+ </script>
+ 
+<style>
+div {
+    background-color: #e1e1ea;
+    width: 450px;
+    height: 600px;
+    border: 20px solid grey;
+    padding: 25px;
+    margin: 25px;
+}
+
+.button {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 16px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+
+.button1 {
+    background-color: white; 
+    color: black; 
+    border: 2px solid #4CAF50;
+}
+
+.button1:hover {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.button2 {
+    background-color: white; 
+    color: black; 
+    border: 2px solid #008CBA;
+}
+
+.button2:hover {
+    background-color: #008CBA;
+    color: white;
+}
+
+.button3 {
+    background-color: white; 
+    color: black; 
+    border: 2px solid #f44336;
+}
+
+.button3:hover {
+    background-color: #f44336;
+    color: white;
+}
+
+.button4 {
+    background-color: white;
+    color: black;
+    border: 2px solid #e7e7e7;
+}
+
+.button4:hover {background-color: #e7e7e7;}
+
+.button5 {
+    background-color: white;
+    color: black;
+    border: 2px solid #555555;
+}
+
+.button5:hover {
+    background-color: #555555;
+    color: white;
+}
+
+</style>
+</html>
