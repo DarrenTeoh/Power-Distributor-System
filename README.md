@@ -1,6 +1,5 @@
 # Power-Distributor-System
-Bachelor study project
-
+Bachelor study project 
 - Raspberry Pi 3 Operating System Setup
 Steps 1 - Download NOOBS software from (https://www.raspberrypi.org/downloads/noobs/).
 
