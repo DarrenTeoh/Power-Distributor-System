@@ -1,6 +1,7 @@
 # Power-Distributor-System
 Bachelor study project
-1 - Raspberry Pi 3 Operating System Setup
+
+- Raspberry Pi 3 Operating System Setup
 Steps 1 - Download NOOBS software from (https://www.raspberrypi.org/downloads/noobs/).
 
 Steps 2 - Download SD Card Formatter from (https://www.sdcard.org/downloads/formatter_4/index.html).
@@ -20,8 +21,7 @@ Steps 8 - Wait for the “Raspbain” operating system installed. (Adopt from ht
 Steps 9 - When it shows the desktop interface, it is means that the whole “Raspbain” operating system setup is complete.
 
 
-
-2 – Firebase Cloud System Setup
+– Firebase Cloud System Setup
 Steps 1 – Go to https://firebase.google.com/ through web browser and click on the “SIGN IN” button.
 
 Steps 2 – Sign in the admin account.
