@@ -20,6 +20,7 @@ Steps 8 - Wait for the “Raspbain” operating system installed. (Adopt from ht
 Steps 9 - When it shows the desktop interface, it is means that the whole “Raspbain” operating system setup is complete.
 
 
+
 2 – Firebase Cloud System Setup
 Steps 1 – Go to https://firebase.google.com/ through web browser and click on the “SIGN IN” button.
 
